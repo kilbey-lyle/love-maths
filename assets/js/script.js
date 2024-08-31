@@ -7,14 +7,29 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert("You clicked submit!");
             } else {
                 let gameType = this.getAttribute("data-type");
-                alert(`You Clicked ${gameType}`);
+                runGame(gameType);
             }
         })
     }
+
+    runGame("addition");
 })
 
+/**
+ * This is the main game loop
+ */
+function runGame(gameType) {
+    let num1 = Math.floor(Math.random() * 25) + 1;
+    let num2 = Math.floor(Math.random() * 25) + 1;
 
-function runGame() {
+    if (gameType === "addition") {
+        displayAddtionQuestion(num1, num2);
+    } else {
+        alert("Unknwo Game type");
+        throw `unknow game type : ${gameType}. Aborting!`;
+    }
+
+
 
 }
 
@@ -34,7 +49,11 @@ function increamentWrongAnswer() {
 
 }
 
-function displayAddtionQuestion() {
+function displayAddtionQuestion(operand1, operand2) {
+
+    document.getElementsById("operand1").textContent = operand1;
+    document.getElementsById("operand2").textContent = operand2;
+    document.getElementsById("operator").textContent = "+";
 
 }
 
