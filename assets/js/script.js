@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let button of buttons) {
         button.addEventListener('click', function() {
             if (this.getAttribute("data-type") === 'submit') {
-                alert("You clicked submit!");
+                checkAnswer();
             } else {
                 let gameType = this.getAttribute("data-type");
                 runGame(gameType);
@@ -23,37 +23,58 @@ function runGame(gameType) {
     let num2 = Math.floor(Math.random() * 25) + 1;
 
     if (gameType === "addition") {
-        displayAddtionQuestion(num1, num2);
+        displayAdditionQuestion(num1, num2);
     } else {
-        alert("Unknwo Game type");
-        throw `unknow game type : ${gameType}. Aborting!`;
+        alert("Unknown Game type");
+        throw `unknown game type : ${gameType}. Aborting!`;
     }
-
-
-
 }
 
 function checkAnswer() {
+    let userAnswer = parseInt(document.getElementById('answer-box').value);
+    let calculatedAnswer = calculateCorrectAnswer();
+    let isCorrect = (userAnswer === calculatedAnswer[0]);
 
+    if (isCorrect) {
+        alert('Woop, Woop.....Correct');
+        incrementScore();
+    } else {
+        alert(`Booooo.... you answer ${userAnswer}. The correct answer is ${calculatedAnswer[0]}!`);
+        incrementWrongAnswer();
+    }
+
+    runGame(calculatedAnswer[1]);
 }
 
 function calculateCorrectAnswer() {
+    let operand1 = parseInt(document.getElementById('operand1').innerText);
+    let operand2 = parseInt(document.getElementById('operand2').innerText);
+    let operator = document.getElementById('operator').innerText;
+    
+    if (operator === "+") {
+        return [operand1 + operand2, "addition"]
+    } else {
+        alert(`Unimplemented operator ${operator}`);
+        throw `Unimplemented operator ${operator}. Aborting`;
+    }
 
 }
 
 function incrementScore() {
-
+    let currentScore = parseInt(document.getElementById('score').textContent);
+    document.getElementById('score').textContent = ++currentScore;
 }
 
-function increamentWrongAnswer() {
-
+function incrementWrongAnswer() {
+    let currentIncorrectScore = parseInt(document.getElementById('incorrect').textContent);
+    document.getElementById('incorrect').textContent = ++currentIncorrectScore;
 }
 
-function displayAddtionQuestion(operand1, operand2) {
+function displayAdditionQuestion(operand1, operand2) {
 
-    document.getElementsById("operand1").textContent = operand1;
-    document.getElementsById("operand2").textContent = operand2;
-    document.getElementsById("operator").textContent = "+";
+    document.getElementById("operand1").textContent = operand1;
+    document.getElementById("operand2").textContent = operand2;
+    document.getElementById("operator").textContent = "+";
 
 }
 
